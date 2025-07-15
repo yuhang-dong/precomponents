@@ -1,0 +1,40 @@
+{
+  "name": "@componentview/story-doc",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsc",
+    "astro-dev": "astro dev",
+    "astro-build": "astro build",
+    "astro-preview": "astro preview",
+    "astro": "astro"
+  },
+  "files": [
+    "dist",
+    "docs"
+  ],
+  "bin": {
+    "storydoc": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./middleware": {
+      "import": "./dist/middleware.js",
+      "require": "./dist/middleware.cjs"
+    }
+  },
+  "dependencies": {
+    "astro-pages-hmr": "^0.1.2",
+    "http-proxy-middleware": "^3.0.5"
+  },
+  "peerDependencies": {
+    "astro": "^5.11.1",
+    "storybook": "^9.0.16"
+  },
+  "devDependencies": {
+    "@types/polka": "^0.5.7"
+  }
+}
