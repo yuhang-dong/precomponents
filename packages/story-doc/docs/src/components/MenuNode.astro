@@ -1,0 +1,65 @@
+---
+const { item, level = 0 } = Astro.props;
+type MenuItem = {
+  label: string;
+  id?: string;
+  entry?: any;
+  children?: MenuItem[];
+};
+---
+<style>
+.menu__item {
+  display: block;
+  padding: 8px 20px;
+  font-size: 1.08rem;
+  color: #222;
+  border-radius: 8px;
+  margin: 2px 0;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, padding 0.18s;
+  position: relative;
+}
+.menu__item--parent {
+  font-weight: 700;
+  background: linear-gradient(90deg, #f1f5f9 60%, #e0e7ef 100%);
+  color: #3b82f6;
+}
+.menu__item--leaf {
+  font-weight: 400;
+}
+.menu__item:hover {
+  background: linear-gradient(90deg, #6366f1 0%, #3b82f6 100%);
+  color: #fff;
+  padding-left: 28px;
+}
+.menu__item--level1 {
+  padding-left: 36px;
+  font-size: 1.01rem;
+  font-weight: 500;
+}
+.menu__item--level2 {
+  padding-left: 56px;
+  font-size: 0.98rem;
+  font-weight: 400;
+}
+.menu__item--level3 {
+  padding-left: 76px;
+  font-size: 0.96rem;
+}
+@media (max-width: 800px) {
+  .menu__item {
+    font-size: 1rem;
+    padding: 8px 10px;
+  }
+}
+</style>
+{item.children ? (
+  <div class={`menu__item menu__item--parent menu__item--level${level}`}>
+    {item.label}
+    {item.children.map((child: MenuItem) => (
+      <MenuNode item={child} level={level + 1} />
+    ))}
+  </div>
+) : (
+  <a class={`menu__item menu__item--leaf menu__item--level${level}`} href={`#${item.id}`}>{item.label}</a>
+)} 

@@ -19,17 +19,42 @@ export const parseSectionsFromEntries = (entries: StoryIndex['entries']) => {
     return sections;
 }
 
-export const parseMenuFromSectionAndEntries = (section: string, entries: StoryIndex['entries']) => {
+export const parseDocsFromSectionAndEntries = (section: string, entries: StoryIndex['entries']) => {
     const menu = Object.entries(entries).reduce((acc, [key, value]) => {
         const parsedSection = parseSectionFromEntry(value);
         if (parsedSection.section === section) {
-            acc.push({
-                id: key,
-                entry: parsedSection.entry,
-            });
+            acc.push(parsedSection.entry);
         }
 
         return acc;
-    }, [] as { id: string, entry: StoryIndex['entries'][string] }[]);
+    }, [] as StoryIndex['entries'][string][]);
     return menu;
+}
+
+export const parseMenuNavigatorFromDocs = (docs: StoryIndex['entries'][string][]) => {
+    console.log(docs)
+    // 递归构建树
+    const root: any[] = [];
+    for (const doc of docs) {
+        const parts = doc.title.split('/');
+        let currentLevel = root;
+        for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            let node = currentLevel.find((item: any) => item.label === part);
+            if (!node) {
+                node = { label: part };
+                if (i === parts.length - 1) {
+                    node.id = doc.id;
+                    node.entry = doc;
+                } else {
+                    node.children = [];
+                }
+                currentLevel.push(node);
+            }
+            if (i < parts.length - 1) {
+                currentLevel = node.children;
+            }
+        }
+    }
+    return root;
 }

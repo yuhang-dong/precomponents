@@ -2,7 +2,7 @@
 import type { GetStaticPaths } from "astro";
 import HeaderMenuLayout from "../../layouts/HeaderMenuLayout.astro";
 import Doc from '../../components/Doc.astro';
-import { parseMenuFromSectionAndEntries } from "../../utils/storybookEntriesUtils";
+import { parseDocsFromSectionAndEntries } from "../../utils/storybookEntriesUtils";
 
 export const getStaticPaths = (() => {
     return [
@@ -17,10 +17,10 @@ let indexEndpoint = mode?.value;
 
 const { section } = Astro.params;
 
-const menu = parseMenuFromSectionAndEntries(section, indexEndpoint.entries);
-console.log({menu})
+const docs = parseDocsFromSectionAndEntries(section, indexEndpoint.entries);
+console.log({docs})
 ---
 
-<HeaderMenuLayout title="StoryDoc" header="Home" menu={menu}>
+<HeaderMenuLayout title="StoryDoc" header="Home" docs={docs}>
     <Doc />
 </HeaderMenuLayout>

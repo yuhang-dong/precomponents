@@ -1,11 +1,31 @@
 ---
+import { parseMenuNavigatorFromDocs } from "../utils/storybookEntriesUtils";
+import MenuNode from "./MenuNode.astro";
 
-const { menu } = Astro.props;
-console.log('Menu:', menu);
-
+const { docs } = Astro.props;
+const menuTree = parseMenuNavigatorFromDocs(docs);
 ---
+<style>
+.menu__container {
+  padding: 24px 0 0 0;
+  font-family: 'Inter', 'Roboto', 'Arial', sans-serif;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.04);
+  max-width: 320px;
+  min-width: 220px;
+}
+@media (max-width: 800px) {
+  .menu__container {
+    min-width: 120px;
+    max-width: 100vw;
+    padding: 8px 0 0 0;
+  }
+}
+</style>
 
-<div>
-
-
+<div class="menu__container">
+  {menuTree.map((item) => (
+    <MenuNode item={item} level={0} />
+  ))}
 </div>
