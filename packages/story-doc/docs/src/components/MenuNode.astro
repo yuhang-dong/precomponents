@@ -61,5 +61,5 @@ type MenuItem = {
     ))}
   </div>
 ) : (
-  <a class={`menu__item menu__item--leaf menu__item--level${level}`} href={`#${item.id}`}>{item.label}</a>
+  <a class={`menu__item menu__item--leaf menu__item--level${level}`} href={`./${item.id}`}>{item.label}</a>
 )} 

@@ -1,12 +1,24 @@
 ---
 import Doc from '../../components/Doc.astro';
 import HeaderMenuLayout from '../../layouts/HeaderMenuLayout.astro';
+import { getAllSectionIdPairs } from '../../utils/storybookEntriesUtils';
+import { parseDocsFromSectionAndEntries } from "../../utils/storybookEntriesUtils";
+const { section, id } = Astro.params;
+
+export async function getStaticPaths() {
+    const mode = await import("virtual:storybook-index")
+    let indexEndpoint = mode?.value;
+  const pairs = getAllSectionIdPairs(indexEndpoint.entries);
+  return pairs.map(({ section, id }) => ({ params: { section, id } }));
+}
+
 const mode = await import("virtual:storybook-index")
 let indexEndpoint = mode?.value;
-console.log('Index endpoint:', indexEndpoint);
-const { section, id } = Astro.params;
+
+
+const docs = parseDocsFromSectionAndEntries(section, indexEndpoint.entries);
 ---
-<HeaderMenuLayout title="StoryDoc">
+<HeaderMenuLayout title="StoryDoc" docs={docs}>
     <Doc id={id}/>
     
 </BasicLayout>

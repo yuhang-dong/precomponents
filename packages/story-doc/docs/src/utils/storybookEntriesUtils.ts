@@ -58,3 +58,10 @@ export const parseMenuNavigatorFromDocs = (docs: StoryIndex['entries'][string][]
     }
     return root;
 }
+
+export const getAllSectionIdPairs = (entries: StoryIndex['entries']) => {
+    return Object.values(entries).map(entry => {
+        const section = entry.title.includes('/') ? entry.title.split('/')[0] : 'home';
+        return { section, id: entry.id };
+    });
+}
