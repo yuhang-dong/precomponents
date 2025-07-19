@@ -1,0 +1,26 @@
+---
+import type { GetStaticPaths } from "astro";
+import HeaderMenuLayout from "../../layouts/HeaderMenuLayout.astro";
+import Doc from '../../components/Doc.astro';
+import { parseMenuFromSectionAndEntries } from "../../utils/storybookEntriesUtils";
+
+export const getStaticPaths = (() => {
+    return [
+        {
+            params: {section: "home"},
+        }
+    ];
+}) satisfies GetStaticPaths;
+
+const mode = await import("virtual:storybook-index")
+let indexEndpoint = mode?.value;
+
+const { section } = Astro.params;
+
+const menu = parseMenuFromSectionAndEntries(section, indexEndpoint.entries);
+console.log({menu})
+---
+
+<HeaderMenuLayout title="StoryDoc" header="Home" menu={menu}>
+    <Doc />
+</HeaderMenuLayout>

@@ -1,0 +1,17 @@
+---
+import HeaderLayout from "./HeaderLayout.astro"
+import Menu from "../components/Menu.astro";
+
+const { title, menu } = Astro.props;
+---
+
+<HeaderLayout title={title}>
+    <main>
+        <section>
+            <Menu menu={menu} />
+        </section>
+        <section>
+            <slot />
+        </section>
+    </main>
+</HeaderLayout>

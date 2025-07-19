@@ -1,0 +1,11 @@
+---
+const { id } = Astro.props;
+const isDev = import.meta.env.DEV;
+// const id = 
+const iframeSrc = isDev
+  ? `http://localhost:6006/iframe.html?id=${id}&viewMode=docs`
+  : 'https://storybook-docs.vercel.app/iframe.html?id=configure-your-project--docs&viewMode=docs';
+---
+
+<iframe src={iframeSrc}>
+</iframe>
