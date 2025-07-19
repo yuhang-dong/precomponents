@@ -22,7 +22,7 @@ export const parseSectionsFromEntries = (entries: StoryIndex['entries']) => {
 export const parseDocsFromSectionAndEntries = (section: string, entries: StoryIndex['entries']) => {
     const menu = Object.entries(entries).reduce((acc, [key, value]) => {
         const parsedSection = parseSectionFromEntry(value);
-        if (parsedSection.section === section) {
+        if (parsedSection.section.toLocaleLowerCase() === section) {
             acc.push(parsedSection.entry);
         }
 
@@ -32,7 +32,6 @@ export const parseDocsFromSectionAndEntries = (section: string, entries: StoryIn
 }
 
 export const parseMenuNavigatorFromDocs = (docs: StoryIndex['entries'][string][]) => {
-    console.log(docs)
     // 递归构建树
     const root: any[] = [];
     for (const doc of docs) {
@@ -61,7 +60,7 @@ export const parseMenuNavigatorFromDocs = (docs: StoryIndex['entries'][string][]
 
 export const getAllSectionIdPairs = (entries: StoryIndex['entries']) => {
     return Object.values(entries).map(entry => {
-        const section = entry.title.includes('/') ? entry.title.split('/')[0] : 'home';
+        const section = entry.title.includes('/') ? entry.title.split('/')[0].toLocaleLowerCase() : 'home';
         return { section, id: entry.id };
     });
 }

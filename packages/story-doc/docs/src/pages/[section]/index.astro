@@ -1,4 +1,5 @@
 ---
+import HeaderLayout from "../../layouts/HeaderLayout.astro";
 import { parseDocsFromSectionAndEntries } from "../../utils/storybookEntriesUtils";
 
 export async function getStaticPaths() {
@@ -7,7 +8,7 @@ export async function getStaticPaths() {
   const sections = Array.from(
     new Set(
       Object.values(indexEndpoint.entries).map(entry =>
-        entry.title.includes("/") ? entry.title.split("/")[0] : "home"
+        entry.title.includes("/") ? entry.title.split("/")[0].toLocaleLowerCase() : "home"
       )
     )
   );
@@ -18,11 +19,14 @@ const { section } = Astro.params;
 const mode = await import("virtual:storybook-index");
 const indexEndpoint = mode?.value;
 const docs = parseDocsFromSectionAndEntries(section, indexEndpoint.entries);
+console.log('Docs for section:', section, docs);
 const firstDoc = docs[0];
 if (firstDoc) {
-  return Astro.redirect(`/${section}/${firstDoc.id}`);
+  return Astro.redirect(`/${section.toLocaleLowerCase()}/${firstDoc.id}`);
 }
 ---
-<section style="padding: 48px; text-align: center;">
-  <h2>该 Section 暂无文档</h2>
-</section>
+<HeaderLayout title="StoryDoc" docs={docs}>
+  <section style="padding: 48px; text-align: center;">
+    <h2>No Docs In Here</h2>
+  </section>
+</HeaderLayout>

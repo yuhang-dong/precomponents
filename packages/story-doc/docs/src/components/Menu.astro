@@ -4,6 +4,15 @@ import MenuNode from "./MenuNode.astro";
 
 const { docs } = Astro.props;
 const menuTree = parseMenuNavigatorFromDocs(docs);
+
+
+// 获取当前section名
+let section = '';
+if (docs && docs.length > 0) {
+  section = docs[0].title.includes('/') ? docs[0].title.split('/')[0].toLocaleLowerCase() : 'home';
+} else {
+  throw new Error('No docs provided to Menu component');
+}
 ---
 <style>
 .menu__container {
@@ -26,6 +35,6 @@ const menuTree = parseMenuNavigatorFromDocs(docs);
 
 <div class="menu__container">
   {menuTree.map((item) => (
-    <MenuNode item={item} level={0} />
+    <MenuNode item={item} level={0} section={section} />
   ))}
 </div>

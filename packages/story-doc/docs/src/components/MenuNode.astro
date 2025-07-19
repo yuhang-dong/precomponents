@@ -1,11 +1,14 @@
 ---
-const { item, level = 0 } = Astro.props;
+import Self from './MenuNode.astro';
+const { item, level = 0, activeId, section } = Astro.props;
 type MenuItem = {
   label: string;
   id?: string;
   entry?: any;
   children?: MenuItem[];
 };
+
+console.log("item", item)
 ---
 <style>
 .menu__item {
@@ -18,6 +21,7 @@ type MenuItem = {
   cursor: pointer;
   transition: background 0.18s, color 0.18s, padding 0.18s;
   position: relative;
+  text-decoration: none;
 }
 .menu__item--parent {
   font-weight: 700;
@@ -31,6 +35,20 @@ type MenuItem = {
   background: linear-gradient(90deg, #6366f1 0%, #3b82f6 100%);
   color: #fff;
   padding-left: 28px;
+}
+.menu__item--active {
+  color: #3b82f6;
+  font-weight: 700;
+  background: linear-gradient(90deg, #e0e7ef 0%, #c7d2fe 100%);
+}
+.menu__item--active::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6366f1 0%, #3b82f6 100%);
+  opacity: 1;
 }
 .menu__item--level1 {
   padding-left: 36px;
@@ -57,9 +75,24 @@ type MenuItem = {
   <div class={`menu__item menu__item--parent menu__item--level${level}`}>
     {item.label}
     {item.children.map((child: MenuItem) => (
-      <MenuNode item={child} level={level + 1} />
+      <Self item={child} level={level + 1} activeId={activeId} section={section} />
     ))}
   </div>
 ) : (
-  <a class={`menu__item menu__item--leaf menu__item--level${level}`} href={`./${item.id}`}>{item.label}</a>
-)} 
+  <a class={`menu__item menu__item--leaf menu__item--level${level}${item.id === activeId ? ' menu__item--active' : ''}`}
+     href={`/${section}/${item.id}`}
+     data-id={item.id}
+  >{item.label}</a>
+)}
+
+<script is:inline>
+  // 前端动态高亮当前id的菜单项
+  const currentId = window.location.pathname.split('/').filter(Boolean)[1] || '';
+  document.querySelectorAll('.menu__item--leaf').forEach(el => {
+    if (el.dataset.id === currentId) {
+      el.classList.add('menu__item--active');
+    } else {
+      el.classList.remove('menu__item--active');
+    }
+  });
+</script> 

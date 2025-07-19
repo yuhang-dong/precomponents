@@ -1,12 +1,10 @@
 ---
-import Doc from '../components/Doc.astro';
-import HeaderMenuLayout from '../layouts/HeaderMenuLayout.astro';
+import HeaderLayout from '../layouts/HeaderLayout.astro';
 const mode = await import("virtual:storybook-index")
 let indexEndpoint = mode?.value;
 console.log('Index endpoint:', indexEndpoint);
-
 ---
-<HeaderMenuLayout title="StoryDoc">
-    <Doc />
+<HeaderLayout title="StoryDoc">
+    
     
 </BasicLayout>

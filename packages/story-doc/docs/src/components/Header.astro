@@ -4,6 +4,14 @@ import { parseSectionsFromEntries } from "../utils/storybookEntriesUtils";
 const mode = await import("virtual:storybook-index")
 const indexEndpoint = mode.value;
 const sections = parseSectionsFromEntries(indexEndpoint.entries);
+
+// 获取当前section
+let currentSection = '';
+if (typeof Astro !== 'undefined' && Astro.url) {
+  // Astro 3.x
+  const pathParts = Astro.url.pathname.split('/').filter(Boolean);
+  currentSection = pathParts[0] || '';
+}
 ---
 <style>
 :root {
@@ -56,6 +64,7 @@ const sections = parseSectionsFromEntries(indexEndpoint.entries);
   cursor: pointer;
   position: relative;
   transition: color 0.2s;
+  text-decoration: none;
 }
 .header__navs__nav:hover::after {
   content: '';
@@ -68,6 +77,19 @@ const sections = parseSectionsFromEntries(indexEndpoint.entries);
 }
 .header__navs__nav:hover {
   color: var(--color-nav-hover);
+}
+.header__navs__nav--active {
+  color: var(--color-main);
+  font-weight: 700;
+}
+.header__navs__nav--active::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-main-grad);
+  opacity: 1;
 }
 .header__actions {
   display: flex;
@@ -179,12 +201,16 @@ const sections = parseSectionsFromEntries(indexEndpoint.entries);
 
 <header class="header__container">
   <div class="header__logo">Story Doc</div>
-  <div class="header__navs">
-    {
-      sections.map((section) => (
-        <div class="header__navs__nav">{section}</div>
-      ))
-    }
+  <div class="header__navs" id="header-navs">
+    {sections.map((section) => (
+      <a
+        href={`/${section.toLocaleLowerCase()}`}
+        class="header__navs__nav"
+        data-section={section.toLocaleLowerCase()}
+      >
+        {section}
+      </a>
+    ))}
   </div>
   <div class="header__menu-btn" title="菜单">
     <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="2" rx="1" fill="#64748b"/><rect x="4" y="11" width="16" height="2" rx="1" fill="#64748b"/><rect x="4" y="16" width="16" height="2" rx="1" fill="#64748b"/></svg>
@@ -202,3 +228,16 @@ const sections = parseSectionsFromEntries(indexEndpoint.entries);
     </a>
   </div>
 </header>
+
+<script is:inline>
+  // 前端动态高亮
+  const navs = document.querySelectorAll('.header__navs__nav');
+  const currentSection = window.location.pathname.split('/').filter(Boolean)[0] || '';
+  navs.forEach(nav => {
+    if (nav.dataset.section === currentSection) {
+      nav.classList.add('header__navs__nav--active');
+    } else {
+      nav.classList.remove('header__navs__nav--active');
+    }
+  });
+</script>
