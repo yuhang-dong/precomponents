@@ -1,6 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
-// @ts-ignore
-import { StoryDocPlugin } from '@componentview/story-doc';
+import { PreComponentsStorybookVitePlugin } from '@precomponents/storybook-integration/plugin';
 
 const config: StorybookConfig = {
   "stories": [
@@ -12,7 +11,7 @@ const config: StorybookConfig = {
   ],
   viteFinal: async (config, options) => {
     // @ts-ignore
-    config.plugins?.push([StoryDocPlugin(options)])
+    config.plugins?.push([PreComponentsStorybookVitePlugin(options)])
     return {
       ...config,
     }

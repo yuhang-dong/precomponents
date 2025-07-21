@@ -1,7 +1,16 @@
 import type { Preview } from '@storybook/react-vite'
+import { themes } from 'storybook/theming';
+import { PreComponentsStorybookDecorator } from '@precomponents/storybook-integration/decorator';
 
 const preview: Preview = {
   parameters: {
+    darkMode: {
+      dark: {
+        ...themes.dark,
+        appBg: 'black',
+        appPreviewBg: "gray", // set appPreviewBg
+      },
+    },
     controls: {
       matchers: {
        color: /(background|color)$/i,
@@ -14,8 +23,11 @@ const preview: Preview = {
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
       test: 'todo'
-    }
+    },
   },
+  decorators: [PreComponentsStorybookDecorator]
 };
+
+
 
 export default preview;

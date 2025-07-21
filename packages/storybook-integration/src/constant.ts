@@ -1,0 +1,1 @@
+export const STORYBOOK_IFRAME_HEIGHT_MESSAGE_TYPE = "storybook:height";

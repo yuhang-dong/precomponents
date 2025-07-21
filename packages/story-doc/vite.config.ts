@@ -15,7 +15,8 @@ export default defineConfig({
       'astro',
       'fsevents',
       '@storybook/builder-vite',
-      'wait-on'
+      'wait-on',
+      '@astrojs/starlight'
       ],
     },
   },

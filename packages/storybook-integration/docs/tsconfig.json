@@ -1,0 +1,12 @@
+{
+  "extends": "../node_modules/astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src", "types/virtual-modyles.d.ts", "src/content.config.ts"],
+  "compilerOptions": {
+    "paths": {
+      "virtual:storybook-index": [
+        "./types/virtual-modules.d.ts"
+      ],
+    }
+  },
+  "exclude": ["dist"]
+}

@@ -19,7 +19,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@componentview/story-doc": "workspace:^",
+    "@precomponents/storybook-integration": "workspace:^",
     "@chromatic-com/storybook": "^4.0.1",
     "@storybook/addon-a11y": "^9.0.16",
     "@storybook/addon-docs": "^9.0.16",
