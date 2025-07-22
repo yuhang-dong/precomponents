@@ -29,7 +29,7 @@ export const collections = {
 
                 const iframeSrc = import.meta.env.DEV
                         ? `http://localhost:6006/iframe.html?id=${storyId}&viewMode=docs`
-                        : `/static/iframe.html?id=${storyId}&viewMode=docs`;
+                        : `${import.meta.env.BASE_URL}/static/iframe.html?id=${storyId}&viewMode=docs`;
 
                 store.set({
                     id,

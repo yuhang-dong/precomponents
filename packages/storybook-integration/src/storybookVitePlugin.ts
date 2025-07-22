@@ -39,7 +39,9 @@ const astroVitePlugin: PluginOption = {
   }
 }
 
-const PreComponentsStorybookVitePlugin = ((option: Options): PluginOption => {
+const PreComponentsStorybookVitePlugin = ((option: Options & {
+  base?: string;
+}): PluginOption => {
   let astroServer;
   return {
     name: '@precomponents/storybook-integration',
@@ -130,6 +132,7 @@ const PreComponentsStorybookVitePlugin = ((option: Options): PluginOption => {
           root: join(__dirname, '../docs'),
           output: 'static',
           outDir: outputDir,
+          base: option.base || '',
           vite: {
             server: {
               watch: {

@@ -10,7 +10,10 @@ const config: StorybookConfig = {
     "@storybook/addon-docs",
   ],
   viteFinal: async (config, options) => {
-    config.plugins?.push([PreComponentsStorybookVitePlugin(options)])
+    config.plugins?.push([PreComponentsStorybookVitePlugin({
+      ...options,
+      base: '/precomponents'
+    })])
     return {
       ...config,
     }
