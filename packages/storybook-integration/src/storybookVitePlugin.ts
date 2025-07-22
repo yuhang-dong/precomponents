@@ -123,7 +123,7 @@ const PreComponentsStorybookVitePlugin = ((option: Options): PluginOption => {
           console.warn('Failed to get the initial entries ', e);
         }
 
-        const outputDir = join(option.outputDir!, '../precomponents');
+        const outputDir = join(option.outputDir!, '../../../docs');
 
 
         astroServer = await astroBuild({
