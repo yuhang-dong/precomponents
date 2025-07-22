@@ -1,4 +1,5 @@
 # @precomponents/storybook-integration
+Example: [https://yuhang-dong.github.io/precomponents/Configure%20your%20project/](https://yuhang-dong.github.io/precomponents/Configure%20your%20project/)
 
 ## English Documentation
 
@@ -43,7 +44,10 @@ const config: StorybookConfig = {
     '@storybook/addon-docs',
   ],
   viteFinal: async (config, options) => {
-    config.plugins?.push([PreComponentsStorybookVitePlugin(options)]);
+    config.plugins?.push([PreComponentsStorybookVitePlugin({
+      ...options,
+      base: '/docs', // deploy path like https://you-website.com/docs
+    })]);
     return { ...config };
   },
   framework: {
@@ -127,7 +131,10 @@ const config: StorybookConfig = {
     '@storybook/addon-docs',
   ],
   viteFinal: async (config, options) => {
-    config.plugins?.push([PreComponentsStorybookVitePlugin(options)]);
+    config.plugins?.push([PreComponentsStorybookVitePlugin({
+      ...options,
+      base: '/docs', // deploy path like https://you-website.com/docs
+    })]);
     return { ...config };
   },
   framework: {

@@ -1,7 +1,17 @@
 {
   "name": "@precomponents/storybook-integration",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "license": "MIT",
+  "author": "Yuhang Dong <dong_yu_hang@126.com>",
+  "homepage": "https://github.com/yuhang-dong/precomponents/tree/main/packages/storybook-integration",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuhang-dong/precomponents.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yuhang-dong/precomponents/issues"
+  },
   "scripts": {
     "build": "vite build && tsc"
   },
@@ -43,4 +53,5 @@
     "@types/wait-on": "^5.3.4",
     "storybook": "^9.0.18"
   }
+
 }
