@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react-vite'
 import { themes } from 'storybook/theming';
-import { PreComponentsStorybookDecorator } from '@precomponents/storybook-integration/decorator';
+// import { PreComponentsStorybookDecorator } from '@precomponents/storybook-integration/decorator';
 
 const preview: Preview = {
   parameters: {
@@ -25,7 +25,7 @@ const preview: Preview = {
       test: 'todo'
     },
   },
-  decorators: [PreComponentsStorybookDecorator]
+  // decorators: [PreComponentsStorybookDecorator]
 };
 
 

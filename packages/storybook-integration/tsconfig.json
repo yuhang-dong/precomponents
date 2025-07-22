@@ -12,6 +12,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
+    "emitDeclarationOnly": true,         // ✅ 只输出类型，不生成 JS
+    "declaration": true,                 // ✅ 启用类型声明输出
+    "declarationDir": "dist",            // ✅ 类型声明输出目录
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "docs"]

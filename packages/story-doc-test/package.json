@@ -1,5 +1,5 @@
 {
-  "name": "@componentview/test",
+  "name": "@precomponents/test",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -45,7 +45,6 @@
     "prettier": "^3.6.2",
     "storybook": "^9.0.16",
     "typescript": "^5.8.3",
-    "vite": "^7.0.4",
     "vitest": "^3.2.4"
   },
   "eslintConfig": {

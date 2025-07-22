@@ -1,0 +1,2 @@
+import{j as n}from"./jsx-runtime-WMM1l-g3.js";import{useMDXComponents as s}from"./index-CFgsFnN6.js";import{M as r}from"./blocks-CKAwuKeo.js";import"./iframe-CRyQvf4-.js";import"./index-CbJdQJIR.js";function o(t){const e={h1:"h1",...s(),...t.components};return n.jsxs(n.Fragment,{children:[n.jsx(r,{title:"ShowCases/test123"}),`
+`,n.jsx(e.h1,{id:"123asd",children:"123asd"})]})}function d(t={}){const{wrapper:e}={...s(),...t.components};return e?n.jsx(e,{...t,children:n.jsx(o,{...t})}):o(t)}export{d as default};

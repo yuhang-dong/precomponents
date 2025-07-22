@@ -4,7 +4,7 @@ import { dev, build as astroBuild } from 'astro';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import waitOn from 'wait-on'
-import { readFile } from 'fs/promises';
+import { cp, readFile } from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -39,12 +39,11 @@ const astroVitePlugin: PluginOption = {
   }
 }
 
-export const PreComponentsStorybookVitePlugin = (option: Options) => {
+const PreComponentsStorybookVitePlugin = ((option: Options): PluginOption => {
   let astroServer;
   return {
     name: '@precomponents/storybook-integration',
     enforce: 'post',
-    async buildStart() {},
     async configResolved(resolvedConfig) {
       if (resolvedConfig.command === 'serve') {
         console.log('Using custom StoryDoc Vite builder for serve');
@@ -71,7 +70,7 @@ export const PreComponentsStorybookVitePlugin = (option: Options) => {
                   ignored: ['!**/node_modules/@precomponents/**']
                 }
               },
-              plugins: [astroVitePlugin]
+              plugins: [astroVitePlugin as any]
             },
           });
         }).catch((e) => {
@@ -79,32 +78,7 @@ export const PreComponentsStorybookVitePlugin = (option: Options) => {
         })
 
       } else if (resolvedConfig.command === 'build') {
-        if (!option.outputDir) {
-          throw new Error('outputDir is not defined in options');
-        }
-        waitOn({
-          resources: [`file://${option.outputDir}`]
-        }).then(async () => {
-          try {
-            const entries = await readFile(join(option.outputDir!, './index.json'), { encoding: 'utf-8' });
-            runtimeEntries = JSON.parse(entries);
-          } catch (e) {
-            console.warn('Failed to get the initial entries ', e);
-          }
 
-          astroServer = await astroBuild({
-            root: __dirname,
-            vite: {
-              server: {
-                watch: {
-                  ignored: ['!**/node_modules/@precomponents/**']
-                }
-              },
-              plugins: [astroVitePlugin]
-            },
-            outDir: option.outputDir + '/ddocs',
-          });
-        })
       }
     },
     async handleHotUpdate(ctx) {
@@ -135,5 +109,44 @@ export const PreComponentsStorybookVitePlugin = (option: Options) => {
 
       }
     },
-  } satisfies PluginOption;
-}
+    async closeBundle() {
+      if (!option.outputDir) {
+        throw new Error('outputDir is not defined in options');
+      }
+      waitOn({
+        resources: [`file://${option.outputDir}`]
+      }).then(async () => {
+        try {
+          const entries = await readFile(join(option.outputDir!, './index.json'), { encoding: 'utf-8' });
+          runtimeEntries = JSON.parse(entries);
+        } catch (e) {
+          console.warn('Failed to get the initial entries ', e);
+        }
+
+        const outputDir = join(option.outputDir!, '../precomponents');
+
+
+        astroServer = await astroBuild({
+          root: join(__dirname, '../docs'),
+          output: 'static',
+          outDir: outputDir,
+          vite: {
+            server: {
+              watch: {
+                ignored: ['!**/node_modules/@precomponents/**']
+              }
+            },
+            plugins: [astroVitePlugin as any]
+          },
+        });
+        await cp(option.outputDir!, outputDir + '/static', {
+          recursive: true,
+        });
+      })
+    }
+  };
+}) as any;
+
+export {
+  PreComponentsStorybookVitePlugin
+};
